@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-inter: "Inter", sans-serif;
+
+  --color-charcoal-100: #e8e8e8;
+  --color-charcoal-200: #c5c5c5;
+  --color-charcoal-300: #a3a3a3;
+  --color-charcoal-400: #808080;
+  --color-charcoal-500: #5e5e5e;
+  --color-charcoal-600: #3b3b3b;
+  --color-charcoal-700: #292929;
+  --color-charcoal-800: #1a1a1a; /* Deep Charcoal */
+  --color-charcoal-900: #0d0d0d;
+
+  --color-electric-blue: #007aff;
+  --color-electric-blue-hover: #006ce6;
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --primary: #007aff;
+  --primary-foreground: #ffffff;
+  --border: #e8e8e8;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --muted: #f4f4f5;
+  --muted-foreground: #5e5e5e;
+}
+
+.dark {
+  --background: #1a1a1a;
+  --foreground: #ffffff;
+  --primary: #007aff;
+  --primary-foreground: #ffffff;
+  --border: #3b3b3b;
+  --card: #292929;
+  --card-foreground: #ffffff;
+  --muted: #292929;
+  --muted-foreground: #a3a3a3;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
