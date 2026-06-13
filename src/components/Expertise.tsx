@@ -64,8 +64,8 @@ export function Expertise() {
               >
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
                   {/* 번호 및 제목 */}
-                  <div className="lg:col-span-6 flex items-start gap-6">
-                    <span className="text-rust-orange font-mono text-sm md:text-base pt-1 md:pt-2">
+                  <div className="lg:col-span-6 flex flex-col md:flex-row items-start gap-2 md:gap-6">
+                    <span className="text-rust-orange font-mono text-sm md:text-base md:pt-2">
                       {pillar.num}
                     </span>
                     <div className="space-y-4">

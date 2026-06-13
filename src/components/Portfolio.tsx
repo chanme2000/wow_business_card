@@ -89,24 +89,30 @@ export function Portfolio({ onSelectProject }: PortfolioProps) {
                     key={project.id}
                     onMouseEnter={() => setHoveredIndex(index)}
                     onClick={() => setSelectedProject(project)}
-                    className="border-b border-border py-6 flex justify-between items-center cursor-pointer transition-all duration-300 group"
+                    className="border-b border-border py-6 flex flex-col md:flex-row md:justify-between md:items-center cursor-pointer transition-all duration-300 group gap-2 md:gap-0"
                   >
-                    <div className="flex items-center gap-6">
+                    <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-6">
                       <span className="text-xs font-mono text-rust-orange">
                         [0{index + 1}]
                       </span>
-                      <h4
-                        className={`text-2xl md:text-3xl font-bold tracking-tight transition-all duration-500 ${
-                          isCurrent 
-                            ? "text-foreground translate-x-2" 
-                            : "text-foreground/30 hover:text-foreground/60"
-                        }`}
-                      >
-                        {project.title}
-                      </h4>
+                      <div className="space-y-1">
+                        <h4
+                          className={`text-2xl md:text-3xl font-bold tracking-tight transition-all duration-500 ${
+                            isCurrent 
+                              ? "text-foreground md:translate-x-2" 
+                              : "text-foreground/30 hover:text-foreground/60"
+                          }`}
+                        >
+                          {project.title}
+                        </h4>
+                        {/* 모바일 하단 문구 */}
+                        <p className="text-xs text-muted-foreground/80 md:hidden leading-relaxed">
+                          {project.description}
+                        </p>
+                      </div>
                     </div>
                     
-                    <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 group-hover:text-rust-orange transition-colors">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 group-hover:text-rust-orange transition-colors self-start md:self-auto">
                       {project.category}
                     </span>
                   </div>
