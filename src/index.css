@@ -4,18 +4,10 @@
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   --font-inter: "Inter", sans-serif;
 
-  --color-charcoal-100: #e8e8e8;
-  --color-charcoal-200: #c5c5c5;
-  --color-charcoal-300: #a3a3a3;
-  --color-charcoal-400: #808080;
-  --color-charcoal-500: #5e5e5e;
-  --color-charcoal-600: #3b3b3b;
-  --color-charcoal-700: #292929;
-  --color-charcoal-800: #1a1a1a; /* Deep Charcoal */
-  --color-charcoal-900: #0d0d0d;
-
-  --color-electric-blue: #007aff;
-  --color-electric-blue-hover: #006ce6;
+  --color-rust-orange: #d25c38;
+  --color-rust-orange-hover: #b84a2b;
+  --color-charcoal: #121211;
+  --color-sand: #f0eee9;
   
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -25,27 +17,27 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #1a1a1a;
-  --primary: #007aff;
-  --primary-foreground: #ffffff;
-  --border: #e8e8e8;
-  --card: #ffffff;
-  --card-foreground: #1a1a1a;
-  --muted: #f4f4f5;
-  --muted-foreground: #5e5e5e;
+  --background: #f0eee9; /* 웜 샌드 베이지 */
+  --foreground: #121211; /* 딥 차콜 소프트 블랙 */
+  --primary: #121211;    /* 기본 텍스트와 대비되는 딥 차콜 */
+  --primary-foreground: #f0eee9;
+  --border: #d5d1c9;     /* 얇고 은은한 구분선 */
+  --card: #efece6;
+  --card-foreground: #121211;
+  --muted: #e4e0d7;      /* 조금 더 어두운 웜 그레이 */
+  --muted-foreground: #706d64;
 }
 
 .dark {
-  --background: #1a1a1a;
-  --foreground: #ffffff;
-  --primary: #007aff;
-  --primary-foreground: #ffffff;
-  --border: #3b3b3b;
-  --card: #292929;
-  --card-foreground: #ffffff;
-  --muted: #292929;
-  --muted-foreground: #a3a3a3;
+  --background: #121211; /* 딥 차콜 */
+  --foreground: #f0eee9; /* 웜 샌드 */
+  --primary: #f0eee9;
+  --primary-foreground: #121211;
+  --border: #282725;
+  --card: #181716;
+  --card-foreground: #f0eee9;
+  --muted: #1e1d1b;
+  --muted-foreground: #9a968f;
 }
 
 @layer base {
@@ -57,5 +49,7 @@
     color: var(--foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.5s ease, color 0.5s ease;
   }
 }
+

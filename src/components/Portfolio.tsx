@@ -2,15 +2,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
 
-type Category = "All" | "Web" | "Photo" | "Design";
-
 const projects = [
   {
     id: 1,
     title: "아마추어 사진 작가 포트폴리오",
     category: "Photo",
     image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1000&auto=format&fit=crop",
-    description: "렌즈 너머의 세상을 담아내는 상업 사진 작업 모음",
+    description: "렌즈 너머의 세상을 정교하게 담아내는 상업 사진 작업 모음",
   },
   {
     id: 2,
@@ -35,76 +33,98 @@ const projects = [
   },
 ];
 
-export function Portfolio() {
-  const [activeTab, setActiveTab] = useState<Category>("All");
+interface PortfolioProps {
+  onSelectProject: (id: number) => void;
+}
+
+export function Portfolio({ onSelectProject }: PortfolioProps) {
+  const [hoveredIndex, setHoveredIndex] = useState<number>(0);
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
 
-  const filteredProjects = activeTab === "All" 
-    ? projects 
-    : projects.filter(p => p.category === activeTab);
+  const activeProject = projects[hoveredIndex] || projects[0];
 
   return (
-    <section className="py-24 px-4 bg-background" id="portfolio">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Selected Works</h2>
-          
-          {/* Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mt-8">
-            {(["All", "Web", "Photo", "Design"] as Category[]).map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveTab(category)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                  activeTab === category 
-                    ? "bg-foreground text-background" 
-                    : "bg-muted text-muted-foreground hover:bg-muted/80"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
+    <section className="py-28 px-4 md:px-8 bg-background border-t border-border" id="portfolio">
+      <div className="max-w-7xl mx-auto">
+        {/* 헤더 */}
+        <div className="mb-20">
+          <span className="text-rust-orange text-xs md:text-sm font-semibold tracking-widest uppercase block mb-4">
+            03/04 • SELECTED WORKS
+          </span>
+          <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase font-inter">
+            Portfolio
+          </h2>
         </div>
 
-        {/* Gallery Grid */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
+        {/* 비대칭 양방향 레이아웃 */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* 좌측: 활성화된 프로젝트의 거대 이미지 뷰파인더 */}
+          <div className="lg:col-span-6 relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] shadow-xl bg-muted border border-border">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeProject.id}
+                src={activeProject.image}
+                alt={activeProject.title}
+                initial={{ opacity: 0, scale: 1.05 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="group relative rounded-xl overflow-hidden cursor-pointer aspect-video bg-muted"
-                onClick={() => setSelectedProject(project)}
-              >
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 text-white">
-                  <span className="text-xs font-bold tracking-wider uppercase mb-2 text-primary">{project.category}</span>
-                  <h3 className="text-2xl font-bold">{project.title}</h3>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute inset-0 w-full h-full object-cover brightness-95 dark:brightness-90"
+              />
+            </AnimatePresence>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-6 left-6 text-white">
+              <span className="text-xs uppercase tracking-widest font-mono font-bold text-rust-orange">{activeProject.category}</span>
+              <h3 className="text-xl font-bold mt-1">{activeProject.title}</h3>
+            </div>
+          </div>
+
+          {/* 우측: 프로젝트 세로 리스트 */}
+          <div className="lg:col-span-6 flex flex-col justify-center space-y-6">
+            <div className="flex flex-col border-t border-border">
+              {projects.map((project, index) => {
+                const isCurrent = index === hoveredIndex;
+                return (
+                  <div
+                    key={project.id}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onClick={() => setSelectedProject(project)}
+                    className="border-b border-border py-6 flex justify-between items-center cursor-pointer transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-6">
+                      <span className="text-xs font-mono text-rust-orange">
+                        [0{index + 1}]
+                      </span>
+                      <h4
+                        className={`text-2xl md:text-3xl font-bold tracking-tight transition-all duration-500 ${
+                          isCurrent 
+                            ? "text-foreground translate-x-2" 
+                            : "text-foreground/30 hover:text-foreground/60"
+                        }`}
+                      >
+                        {project.title}
+                      </h4>
+                    </div>
+                    
+                    <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 group-hover:text-rust-orange transition-colors">
+                      {project.category}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Modal */}
+      {/* 모달 */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/90 backdrop-blur-md"
             onClick={() => setSelectedProject(null)}
           >
             <motion.div
@@ -112,11 +132,11 @@ export function Portfolio() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl bg-card border border-border rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
+              className="relative w-full max-w-4xl bg-card border border-border rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col md:flex-row"
             >
               <button 
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-10 p-2 bg-black/20 hover:bg-black/40 text-white rounded-full transition-colors backdrop-blur-md"
+                className="absolute top-6 right-6 z-10 p-2.5 bg-black/20 hover:bg-black/40 text-white rounded-full transition-colors backdrop-blur-md"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -129,17 +149,23 @@ export function Portfolio() {
                 />
               </div>
               
-              <div className="w-full md:w-2/5 p-8 flex flex-col justify-center">
-                <span className="text-sm font-bold text-primary tracking-widest uppercase mb-2">
+              <div className="w-full md:w-2/5 p-10 flex flex-col justify-center">
+                <span className="text-xs font-bold text-rust-orange tracking-widest uppercase mb-2">
                   {selectedProject.category}
                 </span>
-                <h3 className="text-2xl font-bold mb-4">{selectedProject.title}</h3>
+                <h3 className="text-3xl font-black tracking-tight mb-4">{selectedProject.title}</h3>
                 <p className="text-muted-foreground mb-8 leading-relaxed">
                   {selectedProject.description}
                 </p>
-                <button className="flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-lg font-medium hover:opacity-90 transition-opacity w-fit">
+                <button 
+                  onClick={() => {
+                    onSelectProject(selectedProject.id);
+                    setSelectedProject(null);
+                  }}
+                  className="flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-full font-medium hover:opacity-90 transition-opacity w-fit cursor-pointer border-0"
+                >
                   <ExternalLink className="w-4 h-4" />
-                  View Details
+                  상세 보기
                 </button>
               </div>
             </motion.div>

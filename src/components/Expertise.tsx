@@ -1,106 +1,117 @@
-import { motion } from "framer-motion";
-import { Camera, PenTool, ShieldCheck, Code } from "lucide-react";
+import { useState } from "react";
 
 const pillars = [
   {
     id: "photo",
+    num: "[01]",
     title: "Photography",
     description: "공간의 본질과 분위기를 포착하는 상업 및 건축 사진",
-    icon: Camera,
-    color: "bg-blue-500/10 text-blue-500",
+    tags: ["Commercial", "Space", "Interior", "Drone", "Landscape"],
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "design",
+    num: "[02]",
     title: "Design",
     description: "브랜드의 철학을 시각화하는 로고 및 웹/앱 UI/UX 디자인",
-    icon: PenTool,
-    color: "bg-purple-500/10 text-purple-500",
+    tags: ["Brand Identity", "Logo Design", "UI/UX Design", "Pitch Deck"],
+    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "insurance",
+    num: "[03]",
     title: "Insurance",
     description: "개인과 기업의 리스크를 분석하여 안정적인 미래를 설계",
-    icon: ShieldCheck,
-    color: "bg-emerald-500/10 text-emerald-500",
+    tags: ["Risk Analysis", "Life Insurance", "Corporate", "Financial Planning"],
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: "dev",
+    num: "[04]",
     title: "Development",
     description: "효율적이고 확장 가능한 모던 웹 및 앱 프론트엔드 개발",
-    icon: Code,
-    color: "bg-orange-500/10 text-orange-500",
+    tags: ["React / Next.js", "TypeScript", "Tailwind CSS", "API Integration"],
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop",
   },
 ];
 
 export function Expertise() {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
   return (
-    <section id="expertise" className="py-24 px-4 bg-muted/30">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-4"
-          >
-            4-Pillar Expertise
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-muted-foreground max-w-2xl mx-auto"
-          >
-            다양한 분야의 융합을 통해 완성도 높은 결과물을 도출합니다.
-          </motion.p>
+    <section id="expertise" className="py-28 px-4 md:px-8 bg-background border-t border-border">
+      <div className="max-w-7xl mx-auto">
+        {/* 헤더 타이틀 */}
+        <div className="mb-20">
+          <span className="text-rust-orange text-xs md:text-sm font-semibold tracking-widest uppercase block mb-4">
+            02/04 • WHAT WE DO
+          </span>
+          <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase font-inter">
+            Services
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-          {/* Blueprint connection lines */}
-          <div className="absolute inset-0 z-0 hidden md:block pointer-events-none">
-            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-              <motion.line 
-                x1="50%" y1="0" x2="50%" y2="100%" 
-                stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" 
-                className="text-border"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
-                viewport={{ once: true }}
-              />
-              <motion.line 
-                x1="0" y1="50%" x2="100%" y2="50%" 
-                stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" 
-                className="text-border"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
-                viewport={{ once: true }}
-              />
-            </svg>
-          </div>
+        {/* 세로형 인터랙티브 리스트 */}
+        <div className="border-t border-border">
+          {pillars.map((pillar) => {
+            const isHovered = hoveredId === pillar.id;
+            return (
+              <div
+                key={pillar.id}
+                onMouseEnter={() => setHoveredId(pillar.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                className="border-b border-border py-10 md:py-12 relative group cursor-pointer transition-colors duration-300"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+                  {/* 번호 및 제목 */}
+                  <div className="lg:col-span-6 flex items-start gap-6">
+                    <span className="text-rust-orange font-mono text-sm md:text-base pt-1 md:pt-2">
+                      {pillar.num}
+                    </span>
+                    <div className="space-y-4">
+                      <h3 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground transition-all duration-300 group-hover:translate-x-2">
+                        {pillar.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm md:text-base max-w-md">
+                        {pillar.description}
+                      </p>
+                    </div>
+                  </div>
 
-          {pillars.map((pillar, index) => (
-            <motion.div
-              key={pillar.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
-              className="z-10 group bg-card border border-border p-8 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-crosshair overflow-hidden relative"
-            >
-              <div className="absolute top-0 left-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300" />
-              <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${pillar.color}`}>
-                <pillar.icon className="w-7 h-7" />
+                  {/* 세부 카테고리 태그 및 상세 항목 */}
+                  <div className="lg:col-span-3">
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {pillar.tags.map((tag, idx) => (
+                        <span
+                          key={idx}
+                          className="text-xs font-medium px-2.5 py-1 rounded-full bg-muted border border-border/60 text-muted-foreground"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 썸네일 이미지 노출 영역 */}
+                  <div className="lg:col-span-3 flex justify-start lg:justify-end">
+                    <div className="relative w-full max-w-[200px] h-[120px] rounded-2xl overflow-hidden bg-muted transition-all duration-500 shadow-md">
+                      <img
+                        src={pillar.image}
+                        alt={pillar.title}
+                        className={`w-full h-full object-cover transition-all duration-700 ${
+                          isHovered ? "scale-105 saturate-100" : "scale-100 saturate-50 brightness-90"
+                        }`}
+                      />
+                      <div className={`absolute inset-0 bg-black/10 transition-opacity duration-300 ${isHovered ? "opacity-0" : "opacity-100"}`} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 호버 백그라운드 효과 */}
+                <div className="absolute inset-x-[-16px] inset-y-0 bg-muted/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl" />
               </div>
-              <h3 className="text-xl font-bold mb-3">{pillar.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {pillar.description}
-              </p>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
